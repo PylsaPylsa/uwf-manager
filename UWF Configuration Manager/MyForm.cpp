@@ -64,8 +64,6 @@ int getKey()
 	{
 		if (regKey == ERROR_FILE_NOT_FOUND)
 		{
-			if (MessageBox::Show("Configuration file not found! Would you like to create a new one?", "UWF Manager", MessageBoxButtons::YesNo, MessageBoxIcon::Error) == DialogResult::Yes)
-			{
 				// Create new registry key.
 				if (RegCreateKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\UnifiedGUI\\Static"), 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE | KEY_WOW64_64KEY, NULL, &hKey, NULL) != ERROR_SUCCESS)
 				{
@@ -73,7 +71,7 @@ int getKey()
 					return 1;
 				}
 
-				DWORD defaultPass = hash("admin");
+				DWORD defaultPass = hash("uwfadmin");
 
 				// Set default password.
 				if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\UnifiedGUI\\Static\\"), 0, KEY_ALL_ACCESS | KEY_WOW64_64KEY, &hKey) != ERROR_SUCCESS)
@@ -93,7 +91,7 @@ int getKey()
 				}
 			}
 			return 0;
-		}
+	
 		MessageBox::Show("Unable to open configuration file!", "UWF Manager", MessageBoxButtons::OK, MessageBoxIcon::Error);
 	}
 	else
